@@ -1,0 +1,17 @@
+[package]
+name = "node-fitpack-wasm"
+version = "0.1.0"
+edition = "2021"
+authors = ["Tomer Igal"]
+license = "GPL-3.0"
+readme = "README.md"
+description = "A wasm wrapper for the rusty-fitpack crate"
+keywords = ["FITPACK", "spline", "interpolation", "nodejs", "wasm", "webassembly"]
+repository = "https://github.com/tomerigal/node-fitpack-wasm"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+rusty-fitpack = "0.1.2"
+wasm-bindgen = "0.2"
