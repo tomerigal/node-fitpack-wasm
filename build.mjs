@@ -7,11 +7,11 @@ import { readFile, writeFile, rm } from "fs/promises";
 await promisify(exec)("wasm-pack build --target deno");
 
 // rename the js files
-let wasmFileContent = await readFile("pkg/rusty_fitpack_wasm.js", "utf8");
+let wasmFileContent = await readFile("pkg/node_fitpack_wasm.js", "utf8");
 wasmFileContent = `import fs from 'fs/promises';\n${wasmFileContent}`;
 wasmFileContent = wasmFileContent.replace("Deno.readFile", "fs.readFile");
 await writeFile("pkg/node-esm.js", wasmFileContent, "utf8");
-await rm("pkg/rusty_fitpack_wasm.js");
+await rm("pkg/node_fitpack_wasm.js");
 
 // create package.json
 const cargoToml = await readFile("Cargo.toml", "utf8");
@@ -29,7 +29,7 @@ const packageJson = {
   description: description,
   main: "node-esm.js",
   module: "node-esm.js",
-  types: "rusty_fitpack_wasm.d.ts",
+  types: "node_fitpack_wasm.d.ts",
   author: author,
   license: license,
   repository: repository,
@@ -38,6 +38,12 @@ const packageJson = {
   exports: {
     ".": "./node-esm.js",
   },
+  files: [
+    "node_fitpack_wasm.d.ts",
+    "node_fitpack_wasm_bg.wasm.d.ts",
+    "node_fitpack_wasm_bg.wasm",
+    "node-esm.js",
+  ],
 };
 
 await writeFile(
